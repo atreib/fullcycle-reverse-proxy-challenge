@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0 --default-authentication-plugin=mysql_native_password
+    container_name: challenge-mysql
+    restart: always
+    tty: true
+    volumes:
+      - ./database/data/:/var/lib/mysql/
+      - ./database/migrations/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=challenge
+    networks:
+      - challengenet
+
+  backend:
+    image: backend
+    build:
+      context: ./backend/
+    container_name: challenge-nodejs
+    networks:
+      - challengenet
+
+  proxy:
+    image: nginx-proxy
+    build:
+      context: ./nginx/
+    container_name: challenge-nginx
+    networks:
+      - challengenet
+    ports:
+      - "80:80"
+
+networks:
+  challengenet:
+    driver: bridge
