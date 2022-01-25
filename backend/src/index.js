@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
     // Adapt the response with the query result
     const names = results.map((x) => x.name).join(", ");
     const response = `
-            <h1>Full Cycle!</h1>
+            <h1>Full Cycle Rocks!</h1>
             Results: ${names}
         `;
 
