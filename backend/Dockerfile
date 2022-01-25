@@ -8,6 +8,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 
 WORKDIR /home/node/app
 COPY src/ .
+RUN yarn
 
 EXPOSE 3000
 
